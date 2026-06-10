@@ -136,11 +136,13 @@ RUN apt-get update && \
         echo "Installing mongosh shell..." && \
         wget https://downloads.mongodb.com/compass/mongosh-$MONGOSH_VERSION-linux-ppc64le.tgz && \
         tar -zxvf mongosh-$MONGOSH_VERSION-linux-ppc64le.tgz && \
-        cp /tmp/mongosh-$MONGOSH_VERSION/mongosh-$MONGOSH_VERSION-linux-ppc64le/bin/mongosh /usr/local/bin/ && \
-        cp /tmp/mongosh-$MONGOSH_VERSION/mongosh-$MONGOSH_VERSION-linux-ppc64le/bin/mongosh_crypt_v1.so /usr/local/lib/ && \
-        ln -s $(pwd)/bin/* /usr/local/bin/ && \
-        rm -f /tmp/mongosh-$MONGOSH_VERSION/mongosh-$MONGOSH_VERSION-linux-ppc64le.tgz && \
-        rm -rf /tmp/mongosh-$MONGOSH_VERSION/mongosh-$MONGOSH_VERSION-linux-ppc64le/
+        cp /tmp/mongosh-$MONGOSH_VERSION/mongosh-$MONGOSH_VERSION-linux-ppc64le/bin/mongosh /usr/bin/mongosh && \
+        cp /tmp/mongosh-$MONGOSH_VERSION/mongosh-$MONGOSH_VERSION-linux-ppc64le/bin/mongosh_crypt_v1.so /usr/lib/ && \
+        chmod +x /usr/bin/mongosh && \
+        rm -rf /tmp/mongosh-* && \
+        apt-get purge -y --auto-remove wget && \
+        rm -rf /var/lib/apt/lists/* && \
+        apt-get clean
 
 VOLUME /data/db /data/configdb
 
